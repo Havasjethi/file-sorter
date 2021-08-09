@@ -1,0 +1,11 @@
+[package]
+name = "file_watcher"
+version = "0.0.1"
+authors = ["Jozsef Kulcsar <havasjethi@gmail.com>"]
+description = "Hello"
+keywords = ["file", "watcher"]
+edition = "2018"
+
+[dependencies]
+clap = "3.0.0-beta.2"
+notify = "4.0.16"
