@@ -1,4 +1,4 @@
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::sync::mpsc::channel;
 use std::time::Duration;
 
@@ -9,14 +9,16 @@ pub struct FileWatcher {
 }
 
 impl FileWatcher {
-    pub fn create(string: String) -> FileWatcher { FileWatcher { folder: PathBuf::from(string) } }
+    pub fn create(string: String) -> FileWatcher {
+        FileWatcher {
+            folder: PathBuf::from(string),
+        }
+    }
 
     pub fn watch_folder(&self) {
         let (tx, rx) = channel();
-        let mut watcher: RecommendedWatcher = Watcher::new(
-            tx,
-            Duration::from_secs(1),
-        ).expect("asd");
+        let mut watcher: RecommendedWatcher =
+            Watcher::new(tx, Duration::from_secs(1)).expect("asd");
 
         watcher.watch(&self.folder, RecursiveMode::NonRecursive);
         std::fs::read_dir(&self.folder)
@@ -67,11 +69,15 @@ impl FileWatcher {
             }
 
             let destination_path: PathBuf = {
-                let mut mut_last_name = source_path.file_stem().expect("Nagy baj van")
+                let mut mut_last_name = source_path
+                    .file_stem()
+                    .expect("Nagy baj van")
                     .to_str()
-                    .and_then(|x| Some(x.to_owned())).expect("Baj van");
+                    .and_then(|x| Some(x.to_owned()))
+                    .expect("Baj van");
 
-                let extension = source_path.extension()
+                let extension = source_path
+                    .extension()
                     .and_then(|x| x.to_str())
                     .expect("Nagy baj van");
 
@@ -108,5 +114,5 @@ impl FileWatcher {
         }
     }
 
-    fn create_folder(&self, path: PathBuf) {}
+    fn create_folder(&self, _path: PathBuf) {}
 }
