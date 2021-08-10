@@ -9,13 +9,12 @@ fn main() {
         .arg(
             Arg::new("Folder")
                 .about("FolderPath")
-                .required(true)
+                .default_value(".")
                 .index(1),
         )
         .get_matches();
 
     if let Some(folder) = matches.value_of("Folder") {
-        let watcher = FileWatcher::create(folder.to_owned());
-        watcher.watch_folder();
+        FileWatcher::create(folder.to_owned());
     }
 }
