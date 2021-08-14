@@ -1,5 +1,6 @@
 **/*.rs.bk
 Cargo.lock
 
-/target
-/test-folder
+.idea/
+target/
+test-folder/

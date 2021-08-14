@@ -1,6 +1,6 @@
-use std::path::PathBuf;
-use std::fs::{read_dir, create_dir, rename};
 use std::ffi::OsStr;
+use std::fs::{create_dir, read_dir, rename};
+use std::path::{Path, PathBuf};
 
 pub struct FileWatcher {
     folder: PathBuf,
@@ -48,15 +48,16 @@ impl FileWatcher {
                 println!("Moving file to :: {:?}", &destination_path);
 
                 rename(source_path, &destination_path)
-                    .expect(&format!("Cannot move file to {:?}", &destination_path));
+                    .unwrap_or_else(|_| panic!("Cannot move file to {:?}", &destination_path))
+                        // expect(&format!("Cannot move file to {:?}", &destination_path));
             };
         }
     }
 
-    fn create_destination (&self, source_path: &PathBuf, dest_folder: &PathBuf) -> Result<PathBuf, String> {
+    fn create_destination(&self, source_path: &Path, dest_folder: &Path) -> Result<PathBuf, String> {
         let mut mut_last_name = source_path
             .file_stem()
-            .and_then(|x| Some(x.to_os_string()))
+            .map(|x| x.to_os_string())
             .expect("Nagy baj van");
 
         let extension = source_path
@@ -67,14 +68,15 @@ impl FileWatcher {
             let mut n = x.to_os_string();
             n.push(OsStr::new("."));
             n.push(y);
-            return dest_folder.join(n);
+
+            dest_folder.join(n)
         };
 
         let mut current_iter = 0;
         let max_iter = 15;
 
         loop {
-            current_iter = current_iter + 1;
+            current_iter += 1;
 
             let file_name = create_filename(&mut_last_name, extension);
 
