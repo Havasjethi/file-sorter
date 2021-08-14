@@ -1,11 +1,11 @@
-mod file_watcher;
+mod file_sorter;
 
-use crate::file_watcher::FileWatcher;
+use crate::file_sorter::FileSorter;
 use clap::{App, Arg};
 
 fn main() {
-    let matches = App::new("Gec")
-        .version("0.0.1")
+    let matches = App::new("File sorter")
+        .version("0.1.0")
         .arg(
             Arg::new("Folder")
                 .about("FolderPath")
@@ -15,6 +15,6 @@ fn main() {
         .get_matches();
 
     if let Some(folder) = matches.value_of("Folder") {
-        FileWatcher::create(folder.to_owned());
+        FileSorter::create(folder.to_owned());
     }
 }

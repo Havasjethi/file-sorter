@@ -2,13 +2,13 @@ use std::ffi::OsStr;
 use std::fs::{create_dir, read_dir, rename};
 use std::path::{Path, PathBuf};
 
-pub struct FileWatcher {
+pub struct FileSorter {
     folder: PathBuf,
 }
 
-impl FileWatcher {
-    pub fn create(string: String) -> FileWatcher {
-        let instance = FileWatcher {
+impl FileSorter {
+    pub fn create(string: String) -> FileSorter {
+        let instance = FileSorter {
             folder: PathBuf::from(string),
         };
 
